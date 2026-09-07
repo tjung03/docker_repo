@@ -1,0 +1,38 @@
+version: 0.1
+
+log:
+  fields:
+    service: registry
+
+storage:
+  filesystem:
+    rootdirectory: /var/lib/registry
+  delete:
+    enabled: true
+
+http:
+  addr: :443
+  tls:
+    certificate: /auth/myregistry.example.com.crt
+    key: /auth/myregistry.example.com.key
+  headers:
+    Access-Control-Allow-Origin:
+      - "http://localhost:8080" 
+    Access-Control-Allow-Methods:
+      - GET
+      - POST
+      - DELETE
+      - PUT
+      - PATCH
+      - OPTIONS
+    Access-Control-Allow-Headers:
+      - Authorization
+      - Content-Type
+    Access-Control-Allow-Credentials:
+      - "true"
+
+auth:
+  htpasswd:
+    realm: Registry Realm
+    path: /auth/htpasswd
+

@@ -1,0 +1,19 @@
+# docker run -d -p 443:443 #   -e REGISTRY_HTTP_ADDR=0.0.0.0:443 #   -e ... #   -v ./image-data:/var/lib/registry #   -v /auth:/certs #  registry
+services:
+  registry:
+    image: registry:3
+
+    ports:
+      - 443:443
+
+    environment:
+      REGISTRY_HTTP_ADDR: 0.0.0.0:443
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/myregistry.example.com.crt
+      REGISTRY_HTTP_TLS_KEY: /certs/myregistry.example.com.key
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_PATH: /certs/htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+
+    volumes:
+      - ./image-data:/var/lib/registry
+      - /auth:/certs
