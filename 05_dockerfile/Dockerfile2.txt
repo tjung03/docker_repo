@@ -1,0 +1,5 @@
+FROM ubuntu
+
+RUN echo shell 형식입니다.
+RUN ["echo", "Exec 형식입니다."]
+RUN ["/bin/bash", "-c", "echo 'Exec 형식입니다2.'"]
