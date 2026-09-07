@@ -68,9 +68,9 @@ docker compose down
 
 | 예제 | 준비할 내용 |
 | --- | --- |
-| Registry | Compose와 `config.yml`에 지정된 인증서·개인 키·htpasswd 파일 및 저장 디렉터리 준비. 클라이언트에서 인증서를 신뢰하도록 설정 |
+| Registry | Compose와 `config.yml`에 지정된 인증서·개인 키·htpasswd 파일 및 저장 디렉터리 준비. 클라이언트에서 인증서를 신뢰하도록 설정. Registry UI는 `PROXY_SSL_VERIFY: "off"`로 Registry 인증서 검증을 생략하며, UI 접속 자체는 HTTP |
 | HAProxy | 기본 Compose의 `web1`·`web2`·`web3`와 HAProxy 설정의 백엔드 호스트 이름을 일치시켜야 함. 설정에 포함된 정적 파일 백엔드는 별도 서비스 필요 |
-| Flask·MySQL | `mysqldb` 이름으로 연결할 MySQL 필요. `/initdb`와 `/widgets` 모두 `inventory` 데이터베이스를 삭제하고 다시 생성하므로 전용 실습 DB 사용 |
+| Flask·MySQL | `mysqldb` 이름으로 연결할 MySQL 필요. `/widgets`는 접속 시 `inventory` DB를 지정하므로 첫 사용 전 `/initdb`로 DB를 생성. `/initdb`와 `/widgets` 모두 `inventory` 데이터베이스를 삭제하고 다시 생성하므로 전용 실습 DB 사용 |
 | DB 관리 도구 | MongoDB·PostgreSQL 예제의 계정 설정은 실습용. 개인 실습 환경에 맞는 계정으로 준비 |
 
 ## 사용 기술과 버전
