@@ -68,9 +68,9 @@ docker compose down
 
 | 예제 | 준비할 내용 |
 | --- | --- |
-| Registry | Compose와 `config.yml`에 지정된 인증서·개인 키·htpasswd 파일 및 저장 디렉터리 준비. 클라이언트에서 인증서를 신뢰하도록 설정. Registry UI는 `PROXY_SSL_VERIFY: "off"`로 Registry 인증서 검증을 생략하며, UI 접속 자체는 HTTP |
+| Registry | Compose와 `config.yml`에 지정된 인증서·개인 키·htpasswd 파일 및 저장 디렉터리 준비. 클라이언트에서 인증서를 신뢰하도록 설정. Registry UI는 `PROXY_SSL_VERIFY: "off"`로 Registry 인증서 검증을 생략하며, UI 접속 자체는 HTTP이므로 공개 서비스로 사용하기 전 인증서 검증과 UI 접근 제어를 별도로 설계해야 함 |
 | HAProxy | 기본 Compose의 `web1`·`web2`·`web3`와 HAProxy 설정의 백엔드 호스트 이름을 일치시켜야 함. 설정에 포함된 정적 파일 백엔드는 별도 서비스 필요 |
-| Flask·MySQL | `mysqldb` 이름으로 연결할 MySQL 필요. `/widgets`는 접속 시 `inventory` DB를 지정하므로 첫 사용 전 `/initdb`로 DB를 생성. `/initdb`와 `/widgets` 모두 `inventory` 데이터베이스를 삭제하고 다시 생성하므로 전용 실습 DB 사용 |
+| Flask·MySQL | `mysqldb` 이름으로 연결할 MySQL 필요. 코드에 실습용 `root`/`password`가 고정되어 있음. `/widgets`는 접속 시 `inventory` DB를 지정하므로 첫 사용 전 `/initdb`로 DB를 생성. 두 GET 경로 모두 `inventory` 데이터베이스를 삭제하고 다시 생성하므로 격리된 실습 DB에서만 사용 |
 | DB 관리 도구 | MongoDB·PostgreSQL 예제의 계정 설정은 실습용. 개인 실습 환경에 맞는 계정으로 준비 |
 
 ## 사용 기술과 버전
@@ -82,8 +82,8 @@ docker compose down
 | 기본 Dockerfile 실습 | `ubuntu:24.04`, CentOS Stream 9 계열 |
 | 멀티 스테이지 빌드 | `golang:alpine` → `scratch` |
 | Go 웹 앱 예제 | `golang:1.16` |
-| Flask 예제 | `python:3.8-slim-buster`, Flask `3.0.3`, mysql-connector-python `9.0.0` |
+| Flask 예제 | `python:3.8-slim-buster`(Debian 10 기반), Flask `3.0.3`, mysql-connector-python `9.0.0` |
 | Registry | `registry:3` |
 | HAProxy | `haproxytech/haproxy-alpine:2.7` |
 
-Python 3.8과 HAProxy 2.7은 지원이 종료된 버전입니다. 지원 상태는 [Python 공식 릴리스 안내](https://www.python.org/downloads/release/python-3810/)와 [HAProxy 공식 문서](https://docs.haproxy.org/)에서 확인할 수 있습니다. `latest` 또는 버전을 생략한 이미지와 패키지는 빌드 시점에 따라 달라질 수 있습니다.
+Python 3.8, Debian 10(Buster), Go 1.16, HAProxy 2.7은 지원 기간이 끝난 실습 기준입니다. 버전을 올려 재사용할 때는 기반 이미지·패키지 호환성과 실행 결과를 다시 검증해야 합니다. [Python 지원 현황](https://devguide.python.org/versions/), [Debian 10 지원 종료](https://www.debian.org/News/2024/20240615), [Go 지원 정책](https://go.dev/doc/security/), [HAProxy 문서](https://docs.haproxy.org/)를 참고할 수 있습니다. `latest` 또는 버전을 생략한 이미지와 패키지는 빌드 시점에 따라 달라집니다. 위 Compose·Dockerfile 예제의 현재 환경 빌드와 서비스 실행은 이 문서 작업에서 검증하지 않았습니다.
